@@ -18,4 +18,23 @@ RSpec.describe MoviesController, type: :controller do
   ##### Part 3 #####
   # Write your tests here
   # describe "my feature" do
+  describe "create" do
+    it "add a movie to the movies table" do
+      post 'create', movie: {title: "movie", director: "movie director",
+      rating: "PG-13", release_date: "2009-06-01"}
+      expect(Movie.where(title: "movie")).to exist
+    end
+
+    it "will still add movie if any field is missiong" do
+      post 'create', movie: {title: "movie", rating: "PG-13", release_date: "2009-06-01"}
+      expect(Movie.where(title: "movie")).to exist
+    end
+  end
+
+  describe "destroy" do
+    it "delete a movie in the movies table" do
+      delete 'destroy', :id => Movie.where(title: "Iron Man").first.id
+      expect(Movie.where(title: "Iron Man")).not_to exist
+    end
+  end
 end
